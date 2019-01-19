@@ -6,6 +6,7 @@ import com.gnailuy.robot.exception.IllegalInputException;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
@@ -23,7 +24,7 @@ public class Main {
         // Draw init game board
         GameBoard board = new GameBoard(x, y);
         if (numGuard >= x*y) {
-            numGuard = 7;
+            numGuard = GameBoard.DEFAULT_GUARDS;
         }
         board.initBoard(numGuard);
         display.init(board);
@@ -55,10 +56,15 @@ public class Main {
 
     public static void main(String[] args) {
         Options options = new Options();
+
         Option numGuardOpt = new Option("n", "num-guard", true, "Number of Guards");
         options.addOption(numGuardOpt);
 
+        Option helpOpt = new Option("h", "help", false, "Display Help");
+        options.addOption(helpOpt);
+
         CommandLineParser parser = new DefaultParser();
+        HelpFormatter formatter = new HelpFormatter();
         CommandLine cmd = null;
 
         try {
@@ -68,7 +74,12 @@ public class Main {
             System.exit(-1);
         }
 
-        int numGuard = 7; // Default value
+        if (cmd.hasOption("help")) {
+            formatter.printHelp("Robot Game", options);
+            System.exit(0);
+        }
+
+        int numGuard = GameBoard.DEFAULT_GUARDS; // Default value
         if (cmd.hasOption("num-guard")) {
             try {
                 numGuard = Integer.parseInt(cmd.getOptionValue("num-guard"));
@@ -77,7 +88,7 @@ public class Main {
             }
         }
         if (numGuard <= 0) {
-            numGuard = 7;
+            numGuard = GameBoard.DEFAULT_GUARDS;
         }
 
         Display display = null;

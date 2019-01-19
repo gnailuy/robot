@@ -10,6 +10,8 @@ import java.util.Scanner;
  *
  */
 public class GameBoard {
+    public static final int DEFAULT_GUARDS = 7;
+
     private int x;
     private int y;
     private Robot[][] board;

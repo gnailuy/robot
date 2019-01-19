@@ -87,7 +87,7 @@ public class Main {
                 System.err.println("Wrong number format: n/num-guard should be an integer");
             }
         }
-        if (numGuard <= 0) {
+        if (numGuard <= 1) {
             numGuard = GameBoard.DEFAULT_GUARDS;
         }
 
